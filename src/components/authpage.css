@@ -1,0 +1,22 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 60px;
+
+}
+
+.form-box {
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #ccc;
+}
+#or{
+  margin-top: 6%;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.authChoice{
+  font-weight:bolder;
+}
+
