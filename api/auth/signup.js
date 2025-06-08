@@ -5,25 +5,41 @@ const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
   try {
-    // 🟢 Parse the body explicitly for Vercel (if not already parsed)
-    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+    // 👇 Safely parse body
+    let body = req.body;
 
-    const { username, password } = body;
-    if (!username || !password) {
-      return res.status(400).json({ error: "Missing username or password" });
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body);
+      } catch (err) {
+        return res.status(400).json({ error: 'Invalid JSON format' });
+      }
     }
 
+    const { username, password } = body;
+
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password required' });
+    }
+
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({ where: { username } });
+    if (existingUser) {
+      return res.status(400).json({ error: 'User already exists' });
+    }
+
+    // Create new user
     const hashed = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: { username, password: hashed }
     });
 
-    res.status(201).json({ message: "User created", user });
+    res.status(201).json({ message: 'User created successfully', user });
   } catch (err) {
-    console.error("Signup error:", err);
-    res.status(400).json({ error: "User already exists or invalid data" });
+    console.error('Signup error:', err);
+    res.status(500).json({ error: 'Signup failed' });
   }
 }
