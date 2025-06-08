@@ -7,26 +7,23 @@ const prisma = new PrismaClient();
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  // ✅ Manually parse body (for edge/Vercel functions)
-  let body = "";
   try {
-    const chunks = [];
-    for await (const chunk of req.body) chunks.push(chunk);
-    body = JSON.parse(Buffer.concat(chunks).toString());
-  } catch (error) {
-    return res.status(400).json({ error: "Invalid JSON body" });
-  }
+    // 🟢 Parse the body explicitly for Vercel (if not already parsed)
+    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
 
-  const { username, password } = body;
+    const { username, password } = body;
+    if (!username || !password) {
+      return res.status(400).json({ error: "Missing username or password" });
+    }
 
-  try {
     const hashed = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: { username, password: hashed }
     });
+
     res.status(201).json({ message: "User created", user });
   } catch (err) {
-    console.error("Signup error:", err.message);
-    res.status(400).json({ error: "User already exists or error occurred" });
+    console.error("Signup error:", err);
+    res.status(400).json({ error: "User already exists or invalid data" });
   }
 }
