@@ -20,50 +20,37 @@ function App() {
     }
   }, []);
 
-  const fetchNotes = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const res = await axios.get("http://localhost:5000/api/notes", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setNotes(res.data);
-    } catch (err) {
-      console.error("Error fetching notes", err);
-      if (err.response && err.response.status === 401) {
-        navigate("/"); // Unauthorized, go back to login
-      }
+const baseUrl = import.meta.env.MODE === 'development' ? 'http://localhost:3000' : '';
+
+const fetchNotes = async () => {
+  const token = localStorage.getItem("token");
+  try {
+    const res = await axios.get("/api/notes/index", { headers: { Authorization: `Bearer ${token}` } });
+    setNotes(res.data);
+  } catch (err) {
+    console.error("Error fetching notes", err);
+    if (err.response && err.response.status === 401) {
+      navigate("/");
     }
-  };
+  }
+};
 
 const addNote = async (newNote) => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.post(
-      "http://localhost:5000/api/notes",
-      newNote,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await axios.post("/api/notes/index", newNote, { headers: { Authorization: `Bearer ${token}` } });
     fetchNotes();
-    // Optional: update state with new note
-    console.log("Note added:", res.data);
   } catch (err) {
     console.error("Error adding note:", err);
-    alert("Failed to add note: " + (err.response?.data?.message || err.response?.data?.error || err.message));
+    alert("Failed to add note: " + (err.response?.data?.message || err.message));
   }
 };
-
 
 const deleteNote = async (id) => {
   try {
     const token = localStorage.getItem("token");
-    await axios.delete(`http://localhost:5000/api/notes/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setNotes(prevNotes => prevNotes.filter(note => note.id !== id)); // update UI
+    await axios.delete(`/api/notes/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+    setNotes(prevNotes => prevNotes.filter(note => note.id !== id));
   } catch (err) {
     alert("Delete failed: " + (err.response?.data?.error || err.message));
   }
@@ -72,13 +59,8 @@ const deleteNote = async (id) => {
 const updateNote = async (id, updatedNote) => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.put(`http://localhost:5000/api/notes/${id}`, updatedNote, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    setNotes(prev =>
-      prev.map(note => note.id === id ? res.data : note)
-    );
+    const res = await axios.put(`/api/notes/${id}`, updatedNote, { headers: { Authorization: `Bearer ${token}` } });
+    setNotes(prev => prev.map(note => note.id === id ? res.data : note));
     fetchNotes();
   } catch (err) {
     alert("Update failed: " + (err.response?.data?.error || err.message));

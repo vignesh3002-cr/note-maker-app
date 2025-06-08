@@ -12,15 +12,16 @@ function Login() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:5000/api/login", credentials);
-      localStorage.setItem("token", res.data.token);
-      navigate("/app");
-    } catch (err) {
-        alert("Login failed: " + (err.response?.data?.error || "Unexpected error"));
-    }
-  };
+  e.preventDefault();
+  const baseUrl = import.meta.env.MODE === 'development' ? 'http://localhost:3000' : '';
+  try {
+    const res = await axios.post(`${baseUrl}/api/auth/login`, credentials);
+    localStorage.setItem("token", res.data.token);
+    navigate("/app");
+  } catch (err) {
+    alert("Login failed: " + (err.response?.data?.error || "Unexpected error"));
+  }
+};
 
   return (
     <form onSubmit={handleSubmit} className="login-form" autoComplete="off">

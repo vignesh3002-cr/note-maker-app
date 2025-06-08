@@ -12,17 +12,17 @@ function Signup() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost:5000/api/signup", user);
-      alert("Signup successful. Please login.");
-      navigate("/");
-    } catch (err) {
-      console.error("Signup error:", err);
-      const message = err.response?.data?.message || err.message || "Unknown error";
-      alert("Signup failed: " + message);
-    }
-  };
+  e.preventDefault();
+  const baseUrl = import.meta.env.MODE === 'development' ? 'http://localhost:3000' : '';
+  try {
+    await axios.post(`${baseUrl}/api/auth/signup`, user);
+    alert("Signup successful. Please login.");
+    navigate("/");
+  } catch (err) {
+    const message = err.response?.data?.message || err.message || "Unknown error";
+    alert("Signup failed: " + message);
+  }
+};
 
   return (
     <form onSubmit={handleSubmit} className="login-form" autoComplete="off">
