@@ -11,11 +11,12 @@ function Signup() {
     setUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
-  const baseUrl = import.meta.env.MODE === 'development' ? 'http://localhost:3000' : '';
   try {
-    await axios.post(`${baseUrl}/api/auth/signup`, user);
+    await axios.post("/api/auth/signup", user, {
+      headers: { "Content-Type": "application/json" }
+    });
     alert("Signup successful. Please login.");
     navigate("/");
   } catch (err) {

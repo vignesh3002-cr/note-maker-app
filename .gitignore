@@ -1,9 +1,9 @@
 node_modules
-# Keep environment variables out of version control
 .env
 
-/src/generated/prisma
-dist/
-.vercel/
-
+# Only ignore cache and build artifacts, NOT generated Prisma client
+/dist
 .vercel
+
+# Optional: Keep the Prisma cache folder ignored if you generate elsewhere
+# DO NOT IGNORE src/generated/prisma

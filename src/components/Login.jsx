@@ -11,11 +11,12 @@ function Login() {
     setCredentials((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
-  const baseUrl = import.meta.env.MODE === 'development' ? 'http://localhost:3000' : '';
   try {
-    const res = await axios.post(`${baseUrl}/api/auth/login`, credentials);
+    await axios.post("/api/auth/login", credentials, {
+      headers: { "Content-Type": "application/json" }
+    });
     localStorage.setItem("token", res.data.token);
     navigate("/app");
   } catch (err) {
