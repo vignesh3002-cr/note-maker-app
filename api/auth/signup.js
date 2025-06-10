@@ -5,6 +5,7 @@ const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
+  console.log("DATABASE_URL:", process.env.DATABASE_URL);
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
   try {
