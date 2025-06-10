@@ -126,3 +126,10 @@ form button {
 .authinpt{
   padding: 15px;
 }
+@media (min-width: 600px) {
+  .authinpt,
+  .auth{
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
