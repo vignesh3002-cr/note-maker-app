@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ error: "Invalid password" });
 
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "24h" });
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "900h" });
     res.status(200).json({ token });
   } catch (err) {
     console.error("Login error:", err);
