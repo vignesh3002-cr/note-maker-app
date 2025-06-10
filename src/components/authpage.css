@@ -19,7 +19,7 @@
 .authChoice{
   font-weight:bolder;
 }
-@media (max-width:700px) {
+@media (max-width:900px) {
   .auth-container{
     display: block;
   }
