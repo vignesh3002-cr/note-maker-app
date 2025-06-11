@@ -96,5 +96,6 @@ const Firstpeority=async(id)=>{
     </div>
   );
 }
+}
 
 export default App;
