@@ -13,6 +13,10 @@ function CreateArea({onAdd}) {
     onAdd(note);
     setNote({title:"",content:""});
   };
+  const submitpriority=(e)=>{
+    e.preventDefault();
+
+  }
   return (
     <div>
       <form>

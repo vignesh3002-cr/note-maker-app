@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-function Note({ title, content, id, onDelete, onUpdate }) {
+function Note({ title, content, id, onDelete, onUpdate,onpriority}) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedNote, setEditedNote] = useState({ title, content });
-
+  const[priority,submitpriority]=useState({title,content})
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditedNote((prev) => ({ ...prev, [name]: value }));
@@ -14,8 +14,6 @@ function Note({ title, content, id, onDelete, onUpdate }) {
     onUpdate(id, editedNote);
     setIsEditing(false);
   };
-
-
   return (
     <div className="note">
       {isEditing ? (
@@ -40,6 +38,8 @@ function Note({ title, content, id, onDelete, onUpdate }) {
           <p>{content}</p>
           <button onClick={() => setIsEditing(true)}>Edit</button>
           <button onClick={() => onDelete(id)}>Delete</button>
+          <button onClick={()=>onpriority(id)}>Preority</button> 
+
         </>
       )}
     </div>

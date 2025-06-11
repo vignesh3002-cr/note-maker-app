@@ -65,6 +65,17 @@ const updateNote = async (id, updatedNote) => {
     alert("Update failed: " + (err.response?.data?.error || err.message));
   }
 };
+const Firstpeority=async(id)=>{
+  try{
+    const token=localStorage.getItem("token");
+    await axios.post(`/api/notes/peority/${id}`,{headers:{
+      Authorization:`Bearer ${token}`
+    }});
+    setNotes(prev=>prev.map(note=>note.id=== id?res.data:note));
+    fetchNotes();
+  } catch (err) {
+    alert("priority failed: " + (err.response?.data?.error || err.message));
+}
 
   return (
     <div>
@@ -78,6 +89,7 @@ const updateNote = async (id, updatedNote) => {
           content={note.content}
           onDelete={deleteNote}
           onUpdate={updateNote}
+          onpriority={Firstpeority}
         />
       ))}
       <Footer />
