@@ -2,7 +2,7 @@ import React from "react";
 import Login from "./Login";
 import Signup from "./Signup";
 import Header from "./Header";
-import "./authpage.css"; // optional: for styling both forms
+import "./authpage.css"; 
 
 function AuthPage() {
   return (

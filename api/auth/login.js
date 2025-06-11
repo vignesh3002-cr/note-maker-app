@@ -10,7 +10,6 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
   try {
-    // 🔧 Manually parse body (Vercel doesn't do it automatically)
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     const { username, password } = body;
 

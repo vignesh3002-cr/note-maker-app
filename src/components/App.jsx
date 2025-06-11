@@ -4,13 +4,12 @@ import Header from "./Header";
 import Note from "./Note";
 import Footer from "./Footer";
 import CreateArea from "./CreateArea";
-import { useNavigate } from "react-router-dom"; // 👈 ADD THIS
+import { useNavigate } from "react-router-dom"; 
 
 function App() {
   const [notes, setNotes] = useState([]);
-  const navigate = useNavigate(); // 👈 ADD THIS
+  const navigate = useNavigate(); 
 
-  // Check for token
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
