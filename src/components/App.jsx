@@ -68,7 +68,7 @@ const updateNote = async (id, updatedNote) => {
 const Firstpeority=async(id)=>{
   try{
     const token=localStorage.getItem("token");
-    await axios.post(`/api/notes/peority/${id}`,{headers:{
+    await axios.post(`/api/notes/${id}`,{headers:{
       Authorization:`Bearer ${token}`
     }});
     setNotes(prev=>prev.map(note=>note.id=== id?res.data:note));
@@ -76,7 +76,7 @@ const Firstpeority=async(id)=>{
   } catch (err) {
     alert("priority failed: " + (err.response?.data?.error || err.message));
 }
-
+}
   return (
     <div>
       <Header />
@@ -96,6 +96,6 @@ const Firstpeority=async(id)=>{
     </div>
   );
 }
-}
+
 
 export default App;
