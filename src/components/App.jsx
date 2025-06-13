@@ -59,28 +59,26 @@ const updateNote = async (id, updatedNote) => {
   try {
     const token = localStorage.getItem("token");
     const res = await axios.put(`/api/notes/${id}`, updatedNote, { headers: { Authorization: `Bearer ${token}` } });
-    setNotes(prev => prev.map(note => note.id === id ? res.data : note));
     fetchNotes();
   } catch (err) {
     alert("Update failed: " + (err.response?.data?.error || err.message));
   }
 };
-const Firstpeority=async(id)=>{
-  try{
-    const token=localStorage.getItem("token");
-    await axios.post(`/api/notes/${id}`,{headers:{
-      Authorization:`Bearer ${token}`
-    }});
-    setNotes(prev=>prev.map(note=>note.id=== id?res.data:note));
-    fetchNotes();
-  } catch (err) {
-    alert("priority failed: " + (err.response?.data?.error || err.message));
-}
-}
+const Firstpriority = (id) => {
+  setNotes((prevNotes) => {
+    const clickedNote = prevNotes.find((note) => note.id === id);
+    const otherNotes = prevNotes.filter((note) => note.id !== id);
+    return [clickedNote, ...otherNotes];
+  });
+};
+
+
   return (
-    <div>
-      <Header />
-      <CreateArea onAdd={addNote} />
+  <>
+    <Header />
+    <CreateArea onAdd={addNote} />
+
+    <div className="notes-container">
       {notes.map((note) => (
         <Note
           key={note.id}
@@ -89,12 +87,15 @@ const Firstpeority=async(id)=>{
           content={note.content}
           onDelete={deleteNote}
           onUpdate={updateNote}
-          onpriority={Firstpeority}
+          onpriority={Firstpriority}
         />
       ))}
-      <Footer />
     </div>
-  );
+
+    <Footer />
+  </>
+);
+
 }
 
 

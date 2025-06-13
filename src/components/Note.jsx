@@ -3,7 +3,6 @@ import React, { useState } from "react";
 function Note({ title, content, id, onDelete, onUpdate,onpriority}) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedNote, setEditedNote] = useState({ title, content });
-  const[priority,submitpriority]=useState({title,content})
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditedNote((prev) => ({ ...prev, [name]: value }));

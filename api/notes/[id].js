@@ -1,6 +1,5 @@
 import pkg from '@prisma/client';
 import { verifyToken } from '../../lib/verifyToken.js';
-import { data } from 'react-router-dom';
 
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
@@ -24,28 +23,13 @@ export default async function handler(req, res) {
     } catch {
       res.status(500).json({ error: "Failed to update note" });
     }
-  }
-
-  if (req.method === "DELETE") {
+  } else if (req.method === "DELETE") {
     try {
       const deleted = await prisma.note.deleteMany({
-        where: { id: noteId, userId }
+        where: { id: noteId, userId },
       });
       if (deleted.count === 0) {
         return res.status(403).json({ error: "Not allowed to delete this note" });
-      }
-      res.status(200).json({ message: "Note deleted" });
-    } catch {
-      res.status(500).json({ error: "Failed to delete note" });
-    }
-  }
-  if (req.method === "POST") {
-    try {
-      const priority = await prisma.note.priority({
-        where: { id: 1, userId }  
-      });
-      if (priority.count === 0) {
-        return res.status(403).json({ error: "Not allowed to priority this note" });
       }
       res.status(200).json({ message: "Note deleted" });
     } catch {
