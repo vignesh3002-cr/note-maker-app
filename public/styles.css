@@ -68,7 +68,7 @@ footer p {
 
 form {
   position: relative;
-  width: 480px;
+  max-width:480px;
   margin: 30px auto 20px auto;
   background: #fff;
   padding: 15px;
@@ -133,21 +133,6 @@ form button {
   align-items: flex-start;
   margin-top: 20px;
 }
-@media (min-width: 600px) {
-  .authinpt,
-  .auth{
-    max-width: 400px;
-    margin: 0 auto;
-  }
-}
-@media (max-width: 380px) {
-  form {
-  position: relative;
-  width: 267px;
-  margin: 30px auto 20px auto;
-  background: #fff;
-  padding: 15px;
-  border-radius: 7px;
-  box-shadow: 0 1px 5px rgb(138, 137, 137);
-}
+@media(min-width:830px) and (max-width:1030px){
+  
 }
